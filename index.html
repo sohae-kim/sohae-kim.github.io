@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sohae Kim</title>
+
+    <!-- Google Analytics 4 tracking code -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CFF2LK71QC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-CFF2LK71QC');
+    </script>
+
+    <!-- Microsoft Clarity tracking code -->
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "q7bpjkvliw");
+    </script>
+
+    <style>
+        /* Previous styles remain the same until tabs */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #053782;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-primary: #0f132c;
+            --text-secondary: #353535;
+            --border-color: #e9ecef;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .menu-button {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            padding: 1rem;
+            width: 100%;
+            background: var(--bg-color);
+            color: var(--text-secondary);
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 20px;
+            height: 16px;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .menu-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--card-bg);
+            padding: 0;
+            padding-top: 3.5rem;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: left 0.3s ease;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-header {
+            margin-bottom: clamp(1.5rem, 3vw, 2rem);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .name {
+            font-size: clamp(1.5rem, 2.45vw, 2.5rem);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            padding-left: 0;
+        }
+
+        .title {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+        }
+
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Navigation Styles */
+        .nav-item {
+            margin-bottom: 0.5rem;
+            padding-left: 0;
+        }
+
+        .nav-button {
+            width: 100%;
+            padding: clamp(0.6rem, 1.5vw, 0.8rem) clamp(0.8rem, 2vw, 1rem);
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .submenu {
+            margin-left: 1rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .submenu.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .submenu-item {
+            padding: clamp(0.3rem, 1vw, 0.6rem) clamp(0.7rem, 1.5vw, 1rem);
+            margin-bottom: 0.3rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: var(--text-secondary);
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            white-space: normal;
+            /* Allow text wrapping */
+            line-height: 1.2;
+            /* Tighter line height for wrapped text */
+        }
+
+        @media (max-width: 1199px) {
+            .submenu-item br {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1200px) and (max-width: 1739px) {
+            .submenu-item br {
+                display: block;
+            }
+        }
+
+        @media (min-width: 1740px) {
+            .submenu-item br {
+                display: none;
+            }
+        }
+
+        .submenu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .submenu-item.active {
+            background-color: #e6effd;
+            color: var(--primary-color);
+        }
+
+        .arrow {
+            border: solid currentColor;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(45deg);
+            transition: transform 0.3s;
+        }
+
+        .arrow.up {
+            transform: rotate(-135deg);
+        }
+
+        .main-content {
+            padding: 1rem;
+            padding-top: 4rem;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+            max-width: 100%;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Content Styling */
+        .section-title {
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .experience-item {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .experience-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .experience-company {
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        .experience-period {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .experience-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+        }
+
+        .experience-description {
+            margin-bottom: 1.5rem;
+        }
+
+        .experience-description h3 {
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .experience-description ul {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .experience-description li {
+            margin-bottom: 0.3rem;
+            color: var(--text-secondary);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            margin-bottom: 2rem;
+        }
+
+        .skill-category h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .skill-category ul {
+            margin-left: 1.5rem;
+        }
+
+        .skill-category li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .education-item {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .education-item:last-child {
+            border-bottom: none;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .menu-button {
+                display: none;
+            }
+
+            body {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                /* Always show sidebar on desktop */
+                width: 20vw;
+                padding: 2rem;
+                padding-top: 2rem;
+            }
+
+            .sidebar-header {
+                padding: 0;
+                display: block;
+            }
+
+            .nav-menu {
+                padding: 0;
+            }
+
+            .main-content {
+                margin-left: calc(20vw + 20px);
+                width: calc(75vw - 30px);
+                max-width: 1200px;
+                padding: 2rem;
+            }
+
+            .nav-button {
+                font-size: clamp(1rem, 1.5vw, 1.1rem);
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        .project-image {
+            width: 100%;
+            max-width: min(700px, 85vw);
+            height: auto;
+            margin: 1.5rem 0;
+            display: block;
+        }
+
+        .project-image-small {
+            width: 100%;
+            max-width: min(500px, 75vw);
+            height: auto;
+            margin: 1.5rem 0;
+            display: block;
+        }
+
+        .project-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .about-content {
+            max-width: 100%;
+            line-height: 1.6;
+        }
+
+        .personal-intro {
+            margin-bottom: 2rem;
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .project-links {
+            list-style: none;
+            padding-left: 0;
+            margin: 1rem 0 2rem 0;
+            display: grid;
+            gap: clamp(0.5rem, 1.5vw, 1rem) !important;
+            grid-template-columns: minmax(250px, 1fr);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .project-links li {
+            margin-bottom: 0;
+        }
+
+        .project-preview-card {
+            display: block;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .project-preview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-preview-image {
+            width: 100%;
+            height: min(200px, 25vw);
+            object-fit: contain;
+            padding: min(10px, 2vw);
+            background-color: white;
+        }
+
+        .project-preview-content {
+            padding: 1rem;
+            background: var(--card-bg);
+        }
+
+        .project-title {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .project-period {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            display: block;
+            margin-left: 0;
+        }
+
+        @media (min-width: 768px) {
+            .project-links {
+                grid-template-columns: repeat(3, minmax(200px, 1fr));
+                gap: clamp(0.75rem, 2vw, 1.5rem) !important;
+            }
+        }
+
+        .about-content h3 {
+            margin-top: 2rem;
+            color: var(--text-primary);
+        }
+
+        .career-summary {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        h4 {
+            color: var(--text-primary);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-list {
+            margin: 1rem 0 2rem 1.5rem;
+            line-height: 1.6;
+        }
+
+        .achievement-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .tooltip {
+            text-decoration: underline dotted;
+            cursor: help;
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 12px;
+            background: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            backdrop-filter: blur(4px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .tooltip:hover::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 3px;
+            border: 6px solid transparent;
+            border-top-color: var(--border-color);
+        }
+
+        .image-container {
+            position: relative;
+            margin: 1rem 0;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-end;
+        }
+
+        .image-container img {
+            display: block;
+        }
+
+        .pdf-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9em;
+            white-space: nowrap;
+            margin-bottom: 40px;
+        }
+
+        .pdf-link:hover {
+            text-decoration: underline;
+        }
+
+        .pdf-link svg {
+            margin-right: 4px;
+        }
+
+        .pdf-links-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 10px;
+        }
+
+        .pdf-links-vertical .pdf-link:not(:last-child) {
+            margin-bottom: -0.1rem;
+        }
+
+        @media (max-width: 1199px) {
+            .hide-mobile {
+                display: none;
+            }
+
+            .sidebar-header {
+                display: none;
+                /* Hide the entire header on mobile */
+            }
+        }
+
+        .nav-menu {
+            padding: 0;
+        }
+
+        @media (max-width: 1199px) {
+            .nav-menu {
+                padding-top: 1rem;
+                /* Add space above the menu on mobile */
+            }
+
+            .nav-button {
+                font-weight: 400;
+                /* Make text bold on mobile */
+            }
+
+            .submenu-item {
+                font-weight: 400;
+                /* Make submenu items bold on mobile */
+            }
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            color: #999;
+            /* More subtle grey color */
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+        }
+
+        .linkedin-icon {
+            fill: currentColor;
+            width: clamp(20px, 2vw, 32px);
+            height: clamp(20px, 2vw, 32px);
+        }
+
+        .mobile-only {
+            display: none;
+            /* Hidden by default */
+        }
+
+        @media (max-width: 1199px) {
+            .mobile-only {
+                display: block;
+                /* Show only on mobile */
+            }
+
+            .menu-text {
+                flex: 1;
+                /* Take up remaining space */
+                text-align: left;
+                margin-left: 0.75rem;
+            }
+        }
+
+        @media (max-width: 1199px) {
+            .mobile-only .linkedin-icon {
+                width: 28px;
+                /* Larger fixed size for mobile */
+                height: 28px;
+            }
+        }
+
+        .sidebar-footer {
+            color: #999;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 1rem 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--card-bg);
+            margin: 0;
+        }
+
+        .sidebar-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 2rem;
+            right: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+
+<body>
+    <button class="menu-button" onclick="toggleMenu()">
+        <div class="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="menu-text">Sohae Kim</span>
+        <a href="https://www.linkedin.com/in/sohae/" target="_blank" class="social-link mobile-only">
+            <svg class="linkedin-icon" viewBox="0 0 24 24" width="24" height="24">
+                <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            </svg>
+        </a>
+    </button>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div class="name">Sohae Kim</div>
+                <a href="https://www.linkedin.com/in/sohae/" target="_blank" class="social-link">
+                    <svg class="linkedin-icon" viewBox="0 0 24 24" width="24" height="24">
+                        <path
+                            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-item">
+                <button class="nav-button" onclick="showContent('about')">
+                    About Me
+                </button>
+            </div>
+
+            <div class="nav-item">
+                <button class="nav-button" onclick="toggleSubmenu(this, 'projects-submenu')">
+                    Projects
+                    <span class="arrow"></span>
+                </button>
+                <div class="submenu" id="projects-submenu">
+                    <div class="submenu-item" onclick="showContent('project1')">NLP-Powered <br>Patent Analysis</div>
+                    <div class="submenu-item" onclick="showContent('project2')">ML-Assisted <br>Materials Discovery
+                    </div>
+                    <div class="submenu-item" onclick="showContent('project3')">Data Mining & <br>Data Science</div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <button class="nav-button" onclick="showContent('experience')">
+                    Experience
+                </button>
+            </div>
+
+            <div class="nav-item">
+                <button class="nav-button" onclick="showContent('education')">
+                    Education
+                </button>
+            </div>
+
+            <div class="nav-item">
+                <button class="nav-button" onclick="showContent('skills')">
+                    Skills
+                </button>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            Built from scratch with Cursor
+        </div>
+    </div>
+
+    <main class="main-content">
+        <section id="about" class="content-section">
+            <h1 class="section-title">About Me</h1>
+            <div class="about-content">
+                <p class="personal-intro">
+                    Hi, I'm Sohae Kim. I'm currently seeking a career opportunity in machine learning and data science
+                    near Arlington, VA or remote, which is one of the main reasons why I created this website.
+                </p>
+
+                <p>
+                    I'm a Staff Engineer at Samsung Display, currently on leave to support my family relocated in the
+                    United States. At Samsung Display, I led the development of ML-based systems for materials discovery
+                    and patent analysis. My responsibilities at Samsung Display were equivalent to those of a Research
+                    Scientist or Data Scientist in the current US industry. I am open to similar positions as well as
+                    Machine Learning Engineer.
+                </p>
+
+                <p>
+                    Before Samsung Display, I investigated nanoscale interface of semiconductors computationally in the
+                    department of Mechanical Engineering at <span class="tooltip"
+                        data-tooltip="Massachusetts Institute of Technology">MIT</span> for my PhD and studied
+                    Mechanical Engineering at <span class="tooltip"
+                        data-tooltip="Korea Advanced Institute of Science and Technology">KAIST</span> for my master's
+                    and bachelor's degrees. I
+                    have always been intrigued by computational approaches to solve problems in science and engineering
+                    and enjoy learning new technologies and applying them to solve problems.
+                </p>
+
+                <p>
+                    I would be happy to chat about my projects and experiences. Please feel free to contact me.
+                </p>
+
+                <h3>Projects</h3>
+                <ul class="project-links">
+                    <li>
+                        <a onclick="showContent('project1'); return false;" class="project-preview-card">
+                            <img src="project_1-1.svg" alt="NLP Patent Analysis Preview" class="project-preview-image">
+                            <div class="project-preview-content">
+                                <span class="project-title">
+                                    NLP-Powered Patent Analysis
+                                </span>
+                                <span class="project-period">2022 - 2023 @ Samsung Display</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="showContent('project2'); return false;" class="project-preview-card">
+                            <img src="project_2-1.svg" alt="ML Materials Discovery Preview"
+                                class="project-preview-image">
+                            <div class="project-preview-content">
+                                <span class="project-title">
+                                    ML-Assisted Materials Discovery
+                                </span>
+                                <span class="project-period">2019 - 2022 @ Samsung Display</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="showContent('project3'); return false;" class="project-preview-card">
+                            <img src="project_3-1.svg" alt="Data Mining Preview" class="project-preview-image">
+                            <div class="project-preview-content">
+                                <span class="project-title">
+                                    Data Mining and Data Science
+                                </span>
+                                <span class="project-period">2018 Spring @ MIT</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="project1" class="content-section">
+            <h1 class="section-title">NLP-Powered Analysis of Patents for OLED Materials</h1>
+            <div class="project-content">
+                <div class="experience-period" style="margin-top: -1rem; margin-bottom: 2rem;">2022 - 2023 @ Samsung
+                    Display</div>
+                <div class="image-container" style="margin-top: 0rem;">
+                    <img src="project_1.svg" alt="Project 1 Diagram" class="project-image">
+                    <a href="work_sample_1.pdf" target="_blank" class="pdf-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5 L18.5,9H13z" />
+                        </svg>
+                        View Abstract
+                    </a>
+                </div>
+                <div class="experience-item">
+                    <div class="experience-description">
+                        <h3>Project Overview</h3>
+                        <p>Led the execution and delivery of an <span class="tooltip"
+                                data-tooltip="Minimum Viable Product">MVP</span> system that processes and
+                            analyzes <span class="tooltip"
+                                data-tooltip="United States Patent and Trademark Office">USPTO</span> data. The system
+                            combines <span class="tooltip" data-tooltip="Natural 
+                            Language Processing">NLP</span> and cheminformatics to help researchers understand the
+                            current state of the art and new research opportunities in <span class="tooltip"
+                                data-tooltip="Organic Light-Emitting Diode">OLED</span> materials, while supporting
+                            decision-makers in understanding the competitive landscape.</p>
+
+                        <h3>Key Impact & Achievements</h3>
+                        <ul>
+                            <li>Created a comprehensive OLED materials patent database of 10+ years that processes both
+                                molecular structures and patent claims.</li>
+                            <li>Implemented advanced NLP models to analyze patent claims and discover similar patents.
+                            </li>
+                            <li>Successfully presented the system at <span class="tooltip"
+                                    data-tooltip="International Meeting on Information Display">IMID</span> 2023.
+                                <a href="work_sample_1.pdf" target="_blank"
+                                    style="display: inline-flex; align-items: center; margin-left: 8px; text-decoration: none; color: var(--primary-color);">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+                                        style="margin-right: 4px;">
+                                        <path
+                                            d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5 L18.5,9H13z" />
+                                    </svg>
+                                    View Abstract
+                                </a>
+                            </li>
+                        </ul>
+                        <h3>Technical Details</h3>
+                        <div class="experience-description">
+                            <ul>
+                                <li>Utilized <a href="https://huggingface.co/AI-Growth-Lab/PatentSBERTa" target="_blank"
+                                        style="color: var(--primary-color);">PatentSBERTa</a>, an NLP model based on
+                                    Sentence-<span class="tooltip" data-tooltip="Bidirectional Encoder Representations from 
+                                Transformers">BERT</span> and <span class="tooltip"
+                                        data-tooltip="Robustly Optimized BERT Approach">RoBERTa</span>.</li>
+                                <li>Implemented <span class="tooltip"
+                                        data-tooltip="t-distributed Stochastic Neighbor Embedding">t-SNE</span> mapping
+                                    for visualization of patent similarity based on embedding vectors.</li>
+                                <li>Developed custom processing pipeline for handling various patent file formats
+                                    including XML, TIF images, MDL molfiles, and ChemDraw CDX files.</li>
+                                <li>Created an automated system for converting molecular structure information to <span
+                                        class="tooltip"
+                                        data-tooltip="Simplified Molecular Input Line Entry System">SMILES</span>
+                                    strings using ChemAxon software and in-house code.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="project2" class="content-section">
+            <h1 class="section-title">ML-Assisted Materials Discovery for OLED</h1>
+            <div class="project-content">
+                <div class="experience-period" style="margin-top: -1rem; margin-bottom: 1rem;">
+                    2019 - 2022 @ Samsung Display
+                </div>
+                <div class="image-container" style="margin-top: 1rem;">
+                    <img src="project_2.svg" alt="Project 2 Diagram" class="project-image">
+                    <div class="pdf-links-vertical">
+                        <a href="work_sample_3.pdf" target="_blank" class="pdf-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5 L18.5,9H13z" />
+                            </svg>
+                            View Paper
+                        </a>
+                        <a href="work_sample_2.pdf" target="_blank" class="pdf-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5 L18.5,9H13z" />
+                            </svg>
+                            View Slides
+                        </a>
+                    </div>
+                </div>
+                <div class="experience-item">
+                    <div class="experience-description">
+                        <h3>Project Overview</h3>
+                        <p>Led the development and deployment of ML-assisted systems for <span class="tooltip"
+                                data-tooltip="Organic Light-Emitting Diode">OLED</span> materials discovery. This
+                            platform combines ML-based property prediction with systematic validation frameworks to
+                            accelerate materials discovery process. Traditional discovery of promising OLED molecules
+                            relies heavily on researchers' existing knowledge, limiting their ability to navigate
+                            through billions of potential molecular candidates. With this system, researchers could
+                            quickly identify promising candidates, receive recommendations for similar molecules, and
+                            significantly reduce experimental costs. I advanced the maturity of ML models for property
+                            prediction and led the development and deployment of various modules including
+                            the high-throughput screening system and recommendation system.</p>
+
+                        <h3>Key Impact & Achievements</h3>
+                        <ul>
+                            <li>Transformed materials discovery efficiency:
+                                <ul>
+                                    <li>Increased the precision in identifying viable OLED materials from 22% to 48%
+                                        through ML-based screening.</li>
+                                    <li>Further improved precision to 66% with advanced ML-predictability criteria.</li>
+                                    <li>Enabled systematic exploration of 1.5M+ candidate molecules per structure type.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Advanced technical excellence:
+                                <ul>
+                                    <li>Developed highly accurate ML models achieving RMSE values as low as 0.025eV for
+                                        key molecular properties.</li>
+                                    <li>Created novel ML-predictability scale for quantitative reliability assessment.
+                                    </li>
+                                    <li>Deployed system on internal web platform for organization-wide access.</li>
+                                </ul>
+                            </li>
+                            <li>Demonstrated research leadership:
+                                <ul>
+                                    <li>Published findings in industry proceedings and presented at technical
+                                        conferences.
+                                        <a href="work_sample_3.pdf" target="_blank"
+                                            style="display: inline-flex; align-items: center; margin-left: 8px; text-decoration: none; color: var(--primary-color);">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+                                                style="margin-right: 4px;">
+                                                <path
+                                                    d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5 L18.5,9H13z" />
+                                            </svg>
+                                            View Paper
+                                        </a>
+                                        <a href="work_sample_2.pdf" target="_blank"
+                                            style="display: inline-flex; align-items: center; margin-left: 8px; text-decoration: none; color: var(--primary-color);">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+                                                style="margin-right: 4px;">
+                                                <path
+                                                    d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5 L18.5,9H13z" />
+                                            </svg>
+                                            View Slides
+                                        </a>
+                                    </li>
+                                    <li>Established framework for continuous ML model improvement through iterative
+                                        database expansion.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h3>Technical Details</h3>
+                        <ul>
+                            <li>Developed ensemble ML models combining linear, non-linear, and artificial neural network
+                                approaches using Scikit-learn and Keras.</li>
+                            <li>Implemented comprehensive property prediction for multiple electronic states including
+                                <span class="tooltip" data-tooltip="Highest Occupied Molecular Orbital">HOMO</span>,
+                                <span class="tooltip" data-tooltip="Lowest Unoccupied Molecular Orbital">LUMO</span>,
+                                triplet states (
+                                <span class="tooltip" data-tooltip="First Triplet Excited State">T₁</span>,
+                                <span class="tooltip"
+                                    data-tooltip="Metal-to-Ligand Charge Transfer triplet state">³MLCT</span>,
+                                <span class="tooltip" data-tooltip="Metal-Centered triplet state">³MC</span>) for
+                                phosphors, and
+                                singlet/triplet excited states for
+                                <span class="tooltip"
+                                    data-tooltip="Thermally Activated Delayed Fluorescence">TADF</span>
+                                materials.
+                            </li>
+                            <li>Achieved exceptional prediction accuracy with average RMSEs of 0.025-0.043eV for key
+                                electronic properties.</li>
+                            <li>Utilized hyperparameter optimization techniques including random search and Bayesian
+                                optimization.</li>
+                            <li>Implemented <span class="tooltip"
+                                    data-tooltip="t-distributed Stochastic Neighbor Embedding">t-SNE</span> mapping for
+                                visualization of chemical space and similarity analysis.</li>
+                            <li>Created automated validation pipelines integrating ML predictions with <span
+                                    class="tooltip" data-tooltip="Density Functional Theory">DFT</span> calculations for
+                                final verification.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="project3" class="content-section">
+            <h1 class="section-title">Data Mining and Predictive Modeling for LCA Outcome</h1>
+            <div class="project-content">
+                <div class="experience-period" style="margin-top: -1rem; margin-bottom: 2rem;">2018 Spring @ MIT
+                    Data Mining Course Final Project</div>
+                <div class="image-container" style="margin-top: 0rem;">
+                    <img src="project_3.svg" alt="Project 3 Diagram" class="project-image-small">
+                    <a href="work_sample_4.pdf" target="_blank" class="pdf-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5 L18.5,9H13z" />
+                        </svg>
+                        View Report
+                    </a>
+                </div>
+                <div class="experience-item">
+                    <div class="experience-description">
+                        <h3>Project Overview</h3>
+                        <p>Developed predictive models for labor condition application (LCA) certification outcomes - a
+                            prerequisite first step in the United States professional work visa petition process
+                            including those for H-1B, H-1B1, and E-3 visas. This data mining project aimed to help visa
+                            applicants, sponsoring companies, and immigration lawyers better understand certification
+                            likelihood and key success factors. By analyzing data from the United States <span
+                                class="tooltip"
+                                data-tooltip="Department of Labor Employment and Training Administration">DOLETA</span>'s
+                            <span class="tooltip" data-tooltip="Office of Foreign Labor Certifications">OFLC</span>
+                            website, the project created predictive models to assess LCA applications before submission
+                            and identified crucial factors influencing certification decisions. Received an A+ grade for
+                            the fianl and an A grade overall.
+                        </p>
+
+                        <h3>Key Takeaways</h3>
+                        <ul>
+                            <li>Through data processing and exploration, discovered critical application requirements:
+                                <ul>
+                                    <li>Wage units must be consistent between proposed and prevailing wage fields.</li>
+                                    <li>Proposed wage rate must meet or exceed the prevailing wage for certification
+                                        consideration.</li>
+                                </ul>
+                            </li>
+                            <li>Classification tree analysis revealed several factors that increase certification
+                                likelihood:
+                                <ul>
+                                    <li>H-1B dependent employer status.</li>
+                                    <li>Presence of agent representing employer.</li>
+                                    <li>Use of OES (Occupational Employment Statistics) as prevailing wage source.</li>
+                                    <li>Higher frequency of applications from the employer.</li>
+                                </ul>
+                            </li>
+                            <li>Model Performance:
+                                <ul>
+                                    <li>Classification trees achieved best accuracy (75-77%) on balanced datasets.</li>
+                                    <li>Outperformed baseline models and other machine learning approaches.</li>
+                                    <li>Demonstrated effective prediction capability while maintaining interpretability.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Data Processing Insights:
+                                <ul>
+                                    <li>Working directly with raw DOLETA data revealed crucial insights not available in
+                                        pre-processed datasets.</li>
+                                    <li>Hands-on data cleaning exposed nuanced patterns in wage reporting and
+                                        application preparation.</li>
+                                    <li>Direct processing of source data enabled discovery of subtle relationships
+                                        between certification success and application quality.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h3>Technical Details</h3>
+                        <ul>
+                            <li>Data Processing & Engineering:
+                                <ul>
+                                    <li>Developed robust preprocessing pipeline for wage normalization and unit
+                                        standardization.</li>
+                                    <li>Created two approaches for categorical variables: dummy encoding and
+                                        frequency-based transformation.</li>
+                                    <li>Implemented systematic outlier detection and handling procedures.</li>
+                                </ul>
+                            </li>
+                            <li>Model Development:
+                                <ul>
+                                    <li>Implemented four classification methods: decision trees, logistic regression,
+                                        k-NN, and neural networks.</li>
+                                    <li>Used 50/25/25 split for training, validation, and testing with cross-validation.
+                                    </li>
+                                    <li>Created both balanced and unbalanced dataset approaches to handle class
+                                        imbalance.</li>
+                                </ul>
+                            </li>
+                            <li>Evaluation Framework:
+                                <ul>
+                                    <li>Developed two baseline models: all-certified prediction and wage-based rules.
+                                    </li>
+                                    <li>Created comprehensive evaluation metrics comparing model performance.</li>
+                                    <li>Implemented detailed error analysis to understand prediction failures.</li>
+                                </ul>
+                            </li>
+                            <li>Tech Stack:
+                                <ul>
+                                    <li>R programming with rpart, neuralnet, caret libraries.</li>
+                                    <li>Custom functions for data processing and model evaluation.</li>
+                                    <li>Statistical analysis tools for result validation.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="content-section">
+            <h1 class="section-title">Experience</h1>
+
+            <p class="career-summary">
+                I've built my career at the intersection of machine learning, computational science, and materials
+                discovery. With over 4 years leading ML/AI initiatives in industry settings, I've consistently delivered
+                solutions that accelerate research processes, reduce costs, and drive innovation in materials science.
+            </p>
+
+            <div class="experience-item">
+                <h2 class="experience-title">Staff Engineer (ML/AI Focus)</h2>
+                <div class="experience-header">
+                    <div class="experience-company">Samsung Display</div>
+                    <div class="experience-period">December 2018 - June 2023</div>
+                </div>
+                <div class="experience-description">
+                    <h3>ML-Assisted Materials Discovery Platform</h3>
+                    <ul>
+                        <li>Led development and deployment of ML platform that can increase viable <span class="tooltip"
+                                data-tooltip="Organic Light-Emitting Diode">OLED</span> materials identification
+                            precision from 22% to 66%.</li>
+                        <li>Developed highly accurate ML prediction models (RMSE 0.025-0.043eV) for critical electronic
+                            properties.</li>
+                        <li>Investigated a measurement to quantitatively assess prediction reliability before ML
+                            inference, which became a standard evaluation method within the research team.</li>
+                        <li>Enabled researchers to screen 1.5M+ molecular candidates without costly lab experiments.
+                        </li>
+                        <li>Published and presented findings at <span class="tooltip"
+                                data-tooltip="Society for Information Display">SID</span> Display Week 2021. <a
+                                href="work_sample_3.pdf" target="_blank" style="color: var(--primary-color);">view
+                                paper</a> <a href="work_sample_2.pdf" target="_blank"
+                                style="color: var(--primary-color);">view slide</a></li>
+                    </ul>
+
+                    <h3>NLP-Powered Patent Analysis System</h3>
+                    <ul>
+                        <li>Led the execution and delivery of an MVP system that processes and analyzes 10+ years of
+                            <span class="tooltip" data-tooltip="United States Patent and Trademark Office">USPTO</span>
+                            data for research and business strategy.
+                        </li>
+                        <li>Created the company's first comprehensive OLED materials patent database combining patent
+                            claim analysis with molecular structure extraction.
+                        </li>
+                        <li>Implemented advanced NLP models (<a href="https://huggingface.co/AI-Growth-Lab/PatentSBERTa"
+                                target="_blank" style="color: var(--primary-color);">PatentSBERTa</a>) to analyze patent
+                            claims and detect similar patents.</li>
+                        <li>Designed and implemented <span class="tooltip"
+                                data-tooltip="Extract, Transform, Load">ETL</span> pipeline for handling various patent
+                            file formats.</li>
+                        <li>Successfully presented the system at <span class="tooltip"
+                                data-tooltip="International Meeting on Information Display">IMID</span> 2023. <a
+                                href="work_sample_1.pdf" target="_blank" style="color: var(--primary-color);">view
+                                abstract</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <h2 class="experience-title">Graduate Research Assistant</h2>
+                <div class="experience-header">
+                    <div class="experience-company">Massachusetts Institute of Technology</div>
+                    <div class="experience-period">September 2011 - May 2018</div>
+                </div>
+                <div class="experience-description">
+                    <ul>
+                        <li>Led computational research on nanoscale heterojunctions of transition metal oxide and
+                            silicon for efficient water splitting using <span class="tooltip"
+                                data-tooltip="Density Functional Theory">DFT</span> calculations.</li>
+                        <li>Gained extensive experience in scientific computing, data analysis, and statistical modeling
+                            while developing skills in Python programming.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <h2 class="experience-title">Graduate Research Assistant</h2>
+                <div class="experience-header">
+                    <div class="experience-company">Korea Advanced Institute of Science and Technology</div>
+                    <div class="experience-period">March 2009 - Apr 2011</div>
+                </div>
+                <div class="experience-description">
+                    <ul>
+                        <li>Performed computational fluid dynamics simulations to study interaction of two flexible
+                            flags in tandem.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="content-section">
+            <h1 class="section-title">Education</h1>
+
+            <div class="education-item">
+                <h2 class="experience-title">University of Colorado Boulder</h2>
+                <div class="experience-header">
+                    <div class="experience-company">M.S. in Computer Science</div>
+                    <div class="experience-period">August 2024 - Present</div>
+                </div>
+                <div class="experience-description">
+                    <ul>
+                        <li>Focus on Artificial Intelligence and Data Science</li>
+                        <li>Part-time, online program while actively seeking employment</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="education-item">
+                <h2 class="experience-title">Massachusetts Institute of Technology</h2>
+                <div class="experience-header">
+                    <div class="experience-company">Ph.D. in Mechanical Engineering</div>
+                    <div class="experience-period">September 2011 - June 2018</div>
+                </div>
+                <div class="experience-description">
+                    <ul>
+                        <li>Fulbright Scholar (2011-2013)</li>
+                        <li>Research focus: Computational modeling of nanoscale materials</li>
+                        <li>Coursework relevant to ML, DS and Statistics:<br>Data Mining, Introduction to Deep Learning,
+                            Statistical Consulting, Applied Quantum and Statistical Physics, Managerial Finance I</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="education-item">
+                <h2 class="experience-title">Korea Advanced Institute of Science and Technology</h2>
+                <div class="experience-header">
+                    <div class="experience-company">M.S. in Mechanical Engineering</div>
+                    <div class="experience-period">March 2009 - February 2011</div>
+                </div>
+                <div class="experience-description">
+                    <ul>
+                        <li>Research focus: Computational fluid dynamics</li>
+                    </ul>
+                </div>
+
+                <div class="experience-header" style="margin-top: 1.5rem;">
+                    <div class="experience-company">B.S. in Mechanical Engineering</div>
+                    <div class="experience-period">March 2005 - February 2009</div>
+                </div>
+                <div class="experience-description">
+                    <ul>
+                        <li>Graduated Summa Cum Laude</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="content-section">
+            <h1 class="section-title">Skills</h1>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Machine Learning</h3>
+                    <ul>
+                        <li>Supervised/Unsupervised Learning</li>
+                        <li>Deep Learning</li>
+                        <li>Natural Language Processing</li>
+                        <li>Model Validation</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>ML Frameworks</h3>
+                    <ul>
+                        <li>TensorFlow</li>
+                        <li>PyTorch</li>
+                        <li>scikit-learn</li>
+                        <li>XGBoost</li>
+                        <li>HuggingFace</li>
+                        <li>Transformers</li>
+                        <li>LangChain</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Programming</h3>
+                    <ul>
+                        <li>Python (primary)</li>
+                        <li>SQL</li>
+                        <li>R</li>
+                        <li>Git version control</li>
+                        <li>MATLAB</li>
+                        <li>C++</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Cloud Computing</h3>
+                    <ul>
+                        <li>AWS Certified ML Engineer - Associate</li>
+                        <li>Experience with high-performance computing environments</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Initialize a flag to track if we're handling a popstate event
+        let isHandlingPopState = false;
+
+        // Add this when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get the hash from URL (e.g., #project2)
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                updateContent(hash);
+            } else {
+                // If no hash, show about section as default
+                updateContent('about');
+                // Only push state if we're not already handling a popstate event
+                if (!isHandlingPopState) {
+                    history.replaceState({ sectionId: 'about' }, '', '#about');
+                }
+            }
+        });
+
+        function toggleMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            if (window.innerWidth < 1200) {  // Only toggle on mobile screens
+                sidebar.classList.toggle('active');
+
+                // Add click handler to main content only when sidebar is active
+                if (sidebar.classList.contains('active')) {
+                    mainContent.onclick = function () {
+                        // Add a small delay before closing the sidebar
+                        setTimeout(function () {
+                            sidebar.classList.remove('active');
+                            mainContent.onclick = null;  // Remove handler after closing
+                        }, 150); // 150ms delay - adjust as needed
+                    };
+                } else {
+                    mainContent.onclick = null;  // Remove handler when sidebar is closed
+                }
+            }
+        }
+
+        function toggleSubmenu(button, submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const arrow = button.querySelector('.arrow');
+
+            submenu.classList.toggle('active');
+            arrow.classList.toggle('up');
+
+            // If opening this submenu, close others
+            const allSubmenus = document.querySelectorAll('.submenu');
+            allSubmenus.forEach(menu => {
+                if (menu.id !== submenuId) {
+                    menu.classList.remove('active');
+                }
+            });
+        }
+
+        function showContent(sectionId) {
+            // Only push state if we're not handling a popstate event
+            if (!isHandlingPopState) {
+                history.pushState({ sectionId: sectionId }, '', `#${sectionId}`);
+            }
+
+            // Close sidebar on mobile if it's open
+            const sidebar = document.querySelector('.sidebar');
+            if (window.innerWidth < 1200 && sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+
+            updateContent(sectionId);
+        }
+
+        function updateContent(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+
+                // Scroll to top of the page
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+
+                // Reset all navigation states
+                document.querySelectorAll('.nav-button').forEach(button => {
+                    button.classList.remove('active');
+                    const arrow = button.querySelector('.arrow');
+                    if (arrow) arrow.classList.remove('up');
+                });
+                document.querySelectorAll('.submenu').forEach(submenu => {
+                    submenu.classList.remove('active');
+                });
+                document.querySelectorAll('.submenu-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Update navigation states based on current section
+                if (sectionId.startsWith('project')) {
+                    // Handle project submenu items
+                    const projectButton = document.querySelector('.nav-button[onclick*="projects-submenu"]');
+                    const projectSubmenu = document.getElementById('projects-submenu');
+                    if (projectSubmenu) {
+                        projectSubmenu.classList.add('active');
+                        const projectArrow = projectButton.querySelector('.arrow');
+                        if (projectArrow) projectArrow.classList.add('up');
+                    }
+
+                    // Highlight the specific project submenu item
+                    const submenuItem = document.querySelector(`.submenu-item[onclick*="${sectionId}"]`);
+                    if (submenuItem) {
+                        submenuItem.classList.add('active');
+                    }
+                } else {
+                    // Handle regular nav buttons
+                    const navButton = document.querySelector(`.nav-button[onclick*="${sectionId}"]`);
+                    if (navButton) {
+                        navButton.classList.add('active');
+                    }
+                }
+
+                // Close mobile menu if needed
+                if (window.innerWidth < 768) {
+                    document.querySelector('.sidebar').classList.remove('active');
+                }
+            }
+        }
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function (event) {
+            isHandlingPopState = true;
+            const state = event.state;
+            const hash = window.location.hash.substring(1);
+
+            // Use state if available, otherwise fall back to hash or 'about'
+            const sectionId = state?.sectionId || hash || 'about';
+            updateContent(sectionId);
+            isHandlingPopState = false;
+        });
+    </script>
+</body>
+
+</html>
