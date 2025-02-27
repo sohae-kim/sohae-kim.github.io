@@ -593,8 +593,17 @@
             position: relative;
             margin: 1rem 0;
             display: flex;
-            gap: 2rem;
-            align-items: flex-end;
+            flex-direction: column;
+            gap: 0rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .image-container {
+                flex-direction: row;
+                gap: 2rem;
+                align-items: flex-end;
+            }
         }
 
         .image-container img {
@@ -608,15 +617,7 @@
             text-decoration: none;
             font-size: 0.9em;
             white-space: nowrap;
-            margin-bottom: 40px;
-        }
-
-        .pdf-link:hover {
-            text-decoration: underline;
-        }
-
-        .pdf-link svg {
-            margin-right: 4px;
+            margin-bottom: 0px;
         }
 
         .pdf-links-vertical {
@@ -1224,7 +1225,7 @@
                         <li>Implemented advanced NLP models (<a href="https://huggingface.co/AI-Growth-Lab/PatentSBERTa"
                                 target="_blank" style="color: var(--primary-color);">PatentSBERTa</a>) to analyze patent
                             claims and detect similar patents.</li>
-                        <li>Designed and implemented <span class="tooltip"
+                        <li>Collaborated with Software Engineers to implement <span class="tooltip"
                                 data-tooltip="Extract, Transform, Load">ETL</span> pipeline for handling various patent
                             file formats.</li>
                         <li>Successfully presented the system at <span class="tooltip"
