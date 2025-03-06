@@ -730,6 +730,25 @@
             right: 2rem;
             border-top: 1px solid var(--border-color);
         }
+
+        /* Add this to your existing styles */
+        .external-link-icon {
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        /* Style for the chat button */
+        .nav-button.chat-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .nav-button.chat-button:hover {
+            background-color: #e6effd;
+        }
     </style>
 </head>
 
@@ -765,6 +784,19 @@
             <div class="nav-item">
                 <button class="nav-button" onclick="showContent('about')">
                     About Me
+                </button>
+            </div>
+
+            <div class="nav-item">
+                <button class="nav-button" onclick="window.open('https://rag-chat-resume.vercel.app', '_blank')">
+                    Chat with My Resume
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="external-link-icon">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
                 </button>
             </div>
 
