@@ -19,7 +19,7 @@ This is my personal portfolio website showcasing my experience, projects, and sk
 
 ## View Live
 
-The website is live at [https://username.github.io](https://sohae-kim.github.io)
+The website is live at [https://sohae-kim.github.io](https://sohae-kim.github.io)
 
 ## Development
 
